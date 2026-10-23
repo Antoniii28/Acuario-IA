@@ -26,3 +26,16 @@ No utiliza ML entrenado ni sensores. Rangos ilustrativos: temperatura 24-26 °C,
 - [NOAA: Ocean acidification](https://www.noaa.gov/ocean-acidification)
 - [Stanford CS221: búsquedas por estados](https://stanford.edu/~shervine/teaching/cs-221/cheatsheet-states-models/)
 - [Python: heapq](https://docs.python.org/3/library/heapq.html)
+
+## Fase 3 — Dashboard interactivo en Colab
+
+El cuaderno ahora incluye un panel con:
+- Selector de escenario: base, dentro de rango y salinidad alterada.
+- Controles de temperatura, salinidad y pH.
+- Validación de rangos y alertas con gráficos de medición.
+- Comparación visual de pasos, costos y estados expandidos de BFS, UCS y A*.
+- Selección de algoritmo y visualización del grafo correspondiente.
+
+**Alcance deliberado:** las entradas manuales son solo para el monitoreo de umbrales; los algoritmos y el grafo están definidos exclusivamente para el escenario base (28 °C, 38 ppt, 7.8 pH), sin recalcular una nueva meta a partir de los controles. Así se evita presentar rutas falsas para entradas no discretizadas.
+
+Abre el cuaderno desde GitHub en Colab y elige **Entorno de ejecución → Ejecutar todas**. La última sección contiene el panel interactivo. Si se necesita solo una gráfica, utiliza el botón correspondiente.
