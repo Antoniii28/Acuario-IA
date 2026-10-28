@@ -2,6 +2,11 @@
 
 Prototipo académico en Python para monitoreo simulado de calidad del agua marina y **algoritmos de búsqueda BFS, UCS y A***. Datos ilustrativos; no conectar a equipos reales.
 
+## Demo visual
+- Sitio web: https://antoniii28.github.io/Acuario-IA/
+- La web presenta un ejemplo didáctico de temperatura (estado inicial variable, meta 26 °C, costo unitario). Ejecuta BFS, UCS y A* sobre ese grafo sencillo.
+- Colab presenta el modelo ampliado de tres parámetros (temperatura, salinidad y pH), con costos no uniformes. Los resultados entre ambos modelos no se deben comparar como si fueran el mismo grafo.
+
 ## Ejecutar
 - En Google Colab, abrir `notebooks/Acuario_IA_Colab.ipynb` y ejecutar la celda.
 - En terminal: `python src/acuario_ia.py`
@@ -10,7 +15,7 @@ Prototipo académico en Python para monitoreo simulado de calidad del agua marin
 
 ## Ejemplo
 Estado inicial: 28 °C, 38 ppt y pH 7.8. Meta: 26 °C, 35 ppt y pH 8.2.
-Los pasos simulan ajustes con costos abstractos. BFS prioriza cantidad de acciones; UCS costo acumulado g(n); A* usa f(n)=g(n)+h(n).
+Los pasos simulan ajustes con costos abstractos. BFS prioriza cantidad de acciones; UCS costo acumulado g(n); A* usa f(n)=g(n)+h(n). En la demo de temperatura, h(T)=|T−26|; en el modelo ampliado, la heurística depende de los tres parámetros.
 Resultados esperados: BFS 3 acciones/costo 20, UCS y A* 7 acciones/costo 13.
 
 ## Contenido
