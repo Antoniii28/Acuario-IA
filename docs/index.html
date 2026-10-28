@@ -44,8 +44,20 @@ section{padding:28px 0}h2{font-size:clamp(1.6rem,3.5vw,2.35rem);line-height:1.1;
 <div class="kicker">02 / Representación</div><h2>Cómo se construye la búsqueda</h2><p class="sub">Cada temperatura es un estado (nodo). Las acciones cambian ±1 °C y cuestan 1. La meta es llegar exactamente a 26 °C.</p>
 <div class="model"><div class="model-item"><b>Estado inicial</b><small id="model-start">29 °C</small></div><div class="model-arrow">→</div><div class="model-item"><b>Estados vecinos</b><small id="model-neighbors">28 °C · 30 °C</small></div><div class="model-arrow">→</div><div class="model-item"><b>Estado objetivo</b><small>26 °C</small></div></div>
 </section>
+
 <section>
-<div class="kicker">03 / Las fórmulas</div><h2>Tres valores que guían la búsqueda</h2><p class="sub">Selecciona otra temperatura en la demostración: las fórmulas se recalculan con el nuevo caso.</p>
+<div class="kicker">03 / Formulación formal</div><h2>El problema definido en cinco elementos</h2><p class="sub">Esta es la definición que necesita el algoritmo para buscar una solución.</p>
+<div class="grid">
+<article class="panel"><div class="iconbox">S₀</div><h3>Estado inicial</h3><p><b>S₀ = T inicial</b>. En el ejemplo: 29 °C.</p></article>
+<article class="panel"><div class="iconbox">◎</div><h3>Prueba de meta</h3><p>Se cumple cuando <b>T = 26 °C</b>.</p></article>
+<article class="panel"><div class="iconbox">↔</div><h3>Acciones</h3><p>Pasar a <b>T − 1</b> o <b>T + 1</b>, dentro del modelo de 18 a 32 °C.</p></article>
+<article class="panel"><div class="iconbox">g</div><h3>Costo acumulado</h3><p><b>g(n)</b> es la suma de los costos recorridos. Cada ajuste cuesta 1.</p></article>
+<article class="panel"><div class="iconbox">h</div><h3>Heurística</h3><p><b>h(T) = |T − 26|</b>. Estima cuántos ajustes faltan; no supera el costo real restante.</p></article>
+<article class="panel"><div class="iconbox">f</div><h3>Prioridad de A*</h3><p><b>f(n) = g(n) + h(n)</b>. Combina el costo recorrido con la estimación restante.</p></article>
+</div>
+</section>
+<section>
+<div class="kicker">04 / Las fórmulas</div><h2>Tres valores que guían la búsqueda</h2><p class="sub">Selecciona otra temperatura en la demostración: las fórmulas se recalculan con el nuevo caso.</p>
 <div class="formulas">
 <article class="formula-card"><div class="formula-name">Costo recorrido</div><div class="equation">g(n)</div><p>Cuánto ha costado llegar desde el inicio hasta el estado actual.</p><div class="chips"><span class="chip"><b>g</b> = costo acumulado</span><span class="chip"><b>n</b> = estado actual</span></div></article>
 <article class="formula-card"><div class="formula-name">Heurística</div><div class="equation">h(T) = |T − T<span class="var">objetivo</span>|</div><p>Diferencia absoluta entre la temperatura actual y la temperatura objetivo.</p><div class="chips"><span class="chip"><b>T</b> = temperatura actual</span><span class="chip"><b>Tobjetivo</b> = 26 °C</span><span class="chip"><b>h(T)</b> = grados restantes</span></div></article>
