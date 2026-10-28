@@ -8,7 +8,7 @@ Prototipo académico que ilustra algoritmos de búsqueda para encontrar ajustes 
 ### 1. Escenario — 20 %
 - Problema: determinar una secuencia de ajustes hasta alcanzar una meta.
 - Contexto: acuario marino; mediciones y acciones simuladas.
-- Explicar que el sitio web muestra un caso sencillo de temperatura y Colab incluye un modelo ampliado de temperatura, salinidad y pH.
+- La web compara BFS, UCS y A* en un modelo sencillo de temperatura. El notebook enlazado para exponer es la versión visual con acuario animado y peces; solo revisa la temperatura simulada.
 
 ### 2. Formulación formal — 30 %
 **Ejemplo visual de temperatura (web):**
@@ -21,12 +21,11 @@ Prototipo académico que ilustra algoritmos de búsqueda para encontrar ajustes 
 - Evaluación de A*: f(n) = g(n) + h(n).
 - Ejemplo: h(29) = |29 − 26| = 3; al inicio g(n) = 0, así que f(n) = 0 + 3 = 3.
 
-**Modelo ampliado (Colab):**
-- Estado físico inicial: (28 °C, 38 ppt, pH 7.8).
-- Meta física simulada: (26 °C, 35 ppt, pH 8.2).
-- Estado discreto: S₀ = (0,0,0), meta = (2,3,2).
-- Acciones discretas en un parámetro por vez; los costos son abstractos y se definen en el código.
-- Heurística: h(t,s,p) = 2(2−t) + (3−s) + 3(2−p); en S₀, h=13.
+**Notebook visual de Colab (el que se abre desde la página):**
+- Simula únicamente la temperatura.
+- Rango ilustrativo: 24–26 °C.
+- Incluye acuario animado, flujo de decisión y ruta simulada de corrección.
+- No incluye salinidad ni pH en esta versión visual y no controla equipos reales.
 
 ### 3. Selección y justificación del algoritmo — 30 %
 - BFS: prioriza la menor cantidad de acciones; no considera los costos diferentes al decidir.
@@ -40,7 +39,7 @@ Prototipo académico que ilustra algoritmos de búsqueda para encontrar ajustes 
 ### 4. Trabajo en equipo y presentación — 20 %
 - Repartir la explicación entre integrantes si el equipo lo requiere.
 - Mostrar la web, mover el control de temperatura y leer el cálculo de h y f.
-- Abrir Colab solo para demostrar el modelo ampliado y sus resultados.
+- Abrir Colab para mostrar el acuario animado, cambiar la temperatura simulada y observar la ruta de corrección.
 - Cerrar con la diferencia entre minimizar pasos y minimizar costo.
 
 ## Guion hablado de aproximadamente 2 minutos
@@ -48,11 +47,11 @@ Prototipo académico que ilustra algoritmos de búsqueda para encontrar ajustes 
 
 La formulación define el estado inicial S₀, la prueba de meta T igual a 26, las acciones permitidas y el costo acumulado g(n). Para A* usamos la heurística h(T)=|T−26|, que estima los ajustes que faltan. Por ejemplo, h(29)=|29−26|=3. Como al inicio el costo recorrido es cero, f(n)=g(n)+h(n)=0+3=3.
 
-BFS explora por niveles y busca la menor cantidad de acciones. UCS prioriza el costo acumulado. A* combina el costo recorrido y la heurística. En este ejemplo los tres encuentran costo tres porque todos los movimientos cuestan uno. En el notebook de Colab está el modelo ampliado con temperatura, salinidad y pH, donde los costos son distintos y se aprecia por qué BFS puede elegir más barato en número de pasos, pero no en costo. Es un modelo académico, no una recomendación de tratamiento real.”
+BFS explora por niveles y busca la menor cantidad de acciones. UCS prioriza el costo acumulado. A* combina el costo recorrido y la heurística. En este ejemplo los tres encuentran costo tres porque todos los movimientos cuestan uno. En el notebook visual de Colab aparece el acuario animado y se simula una corrección de temperatura dentro del rango ilustrativo. La página web es la que permite comparar BFS, UCS y A* sobre el grafo sencillo de temperatura. Es un modelo académico, no un sistema de control real.”
 
 ## Checklist antes de exponer
 - [ ] Abrir la página publicada y mover el control de temperatura.
 - [ ] Comprobar que para 29 °C se muestra h=3, f inicial=3 y costo mínimo=3.
-- [ ] Abrir el notebook correcto en Colab y ejecutar las celdas desde el inicio.
+- [ ] Abrir el notebook visual con peces en Colab y ejecutar las celdas desde el inicio.
 - [ ] Mostrar resultados de BFS/UCS/A* y explicar costo frente a cantidad de acciones.
 - [ ] No afirmar que hay sensores reales, control físico o ML entrenado.
