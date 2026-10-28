@@ -29,7 +29,7 @@ section{padding:28px 0}h2{font-size:clamp(1.6rem,3.5vw,2.35rem);line-height:1.1;
 <header class="wrap"><div class="brand">🌊 ACUARIO<span>-IA</span></div><a class="navlink" href="#demo">Interactuar con el modelo ↓</a></header>
 <main class="wrap">
 <section class="hero">
-<div><div class="eyebrow">Inteligencia artificial · Búsqueda de estados</div><h1>Una ruta.<br>Una meta.<br><span style="color:var(--aqua)">Menos pasos.</span></h1><p>¿Cómo puede una IA encontrar ajustes para llevar la temperatura de un acuario a un rango objetivo? Explora el modelo y mira qué significan sus fórmulas.</p><div class="hero-actions"><a class="btn primary" href="#demo">Probar la búsqueda</a><a class="btn" href="https://colab.research.google.com/github/Antoniii28/Acuario-IA/blob/fase8-busqueda-bfs-astar/notebooks/Acuario_IA_Fase6_Flujo_Profesional.ipynb" target="_blank" rel="noreferrer">Notebook en Colab ↗</a></div></div>
+<div><div class="eyebrow">Inteligencia artificial · Búsqueda de estados</div><h1>Una ruta.<br>Una meta.<br><span style="color:var(--aqua)">Menos pasos.</span></h1><p>¿Cómo puede una IA encontrar los ajustes necesarios para llevar la temperatura de un acuario a 26 °C? Explora el modelo y mira qué significan sus fórmulas.</p><div class="hero-actions"><a class="btn primary" href="#demo">Probar la búsqueda</a><a class="btn" href="https://colab.research.google.com/github/Antoniii28/Acuario-IA/blob/fase8-busqueda-bfs-astar/notebooks/Acuario_IA_Fase6_Flujo_Profesional.ipynb" target="_blank" rel="noreferrer">Notebook en Colab ↗</a></div></div>
 <div class="tank-art" role="img" aria-label="Ilustración de un acuario marino"><div class="tank"><div class="bubble"></div><div class="fish">🐠</div><div class="plant">🌿</div></div><div class="art-label">MODELO · T°</div></div>
 </section>
 <section>
@@ -37,47 +37,47 @@ section{padding:28px 0}h2{font-size:clamp(1.6rem,3.5vw,2.35rem);line-height:1.1;
 <div class="grid">
 <article class="panel"><div class="iconbox">◉</div><h3>Estado</h3><p>Temperatura entera entre <b>18 y 32 °C</b>.</p><div class="statline"><span class="dot"></span>Ejemplo: 29 °C</div></article>
 <article class="panel"><div class="iconbox">↕</div><h3>Acciones</h3><p>Subir o bajar la temperatura <b>1 °C por paso</b>.</p><div class="statline"><span class="dot"></span>Costo por ajuste: 1</div></article>
-<article class="panel"><div class="iconbox">◎</div><h3>Objetivo</h3><p>Llegar al intervalo de <b>24 a 26 °C</b>, incluidos sus extremos.</p><div class="statline"><span class="dot"></span>Meta: cualquier valor del rango</div></article>
+<article class="panel"><div class="iconbox">◎</div><h3>Objetivo</h3><p>Llegar a la temperatura objetivo de <b>26 °C</b>.</p><div class="statline"><span class="dot"></span>Meta fija: 26 °C</div></article>
 </div>
 </section>
 <section>
 <div class="kicker">02 / Representación</div><h2>Cómo se construye la búsqueda</h2><p class="sub">Cada temperatura es un nodo. Las flechas son ajustes posibles; el algoritmo explora hasta alcanzar la meta.</p>
-<div class="model"><div class="model-item"><b>Estado inicial</b><small id="model-start">29 °C</small></div><div class="model-arrow">→</div><div class="model-item"><b>Estados vecinos</b><small id="model-neighbors">28 °C · 30 °C</small></div><div class="model-arrow">→</div><div class="model-item"><b>Estado objetivo</b><small>24–26 °C</small></div></div>
+<div class="model"><div class="model-item"><b>Estado inicial</b><small id="model-start">29 °C</small></div><div class="model-arrow">→</div><div class="model-item"><b>Estados vecinos</b><small id="model-neighbors">28 °C · 30 °C</small></div><div class="model-arrow">→</div><div class="model-item"><b>Estado objetivo</b><small>26 °C</small></div></div>
 </section>
 <section>
 <div class="kicker">03 / Las fórmulas</div><h2>Tres valores que guían la búsqueda</h2><p class="sub">Selecciona otra temperatura en la demostración: las fórmulas se recalculan con el nuevo caso.</p>
 <div class="formulas">
 <article class="formula-card"><div class="formula-name">Costo recorrido</div><div class="equation">g(n)</div><p>Cuánto ha costado llegar desde el inicio hasta el estado actual.</p><div class="chips"><span class="chip"><b>g</b> = costo acumulado</span><span class="chip"><b>n</b> = estado actual</span></div></article>
-<article class="formula-card"><div class="formula-name">Heurística</div><div class="equation">h(T) = max(<span class="var">24 − T</span>, 0, <span class="var">T − 26</span>)</div><p>Distancia mínima estimada hasta entrar al intervalo objetivo.</p><div class="chips"><span class="chip"><b>T</b> = temperatura</span><span class="chip"><b>max</b> = mayor valor</span><span class="chip"><b>0</b> = dentro del rango</span></div></article>
+<article class="formula-card"><div class="formula-name">Heurística</div><div class="equation">h(T) = |T − T<span class="var">objetivo</span>|</div><p>Diferencia absoluta entre la temperatura actual y la temperatura objetivo.</p><div class="chips"><span class="chip"><b>T</b> = temperatura actual</span><span class="chip"><b>Tobjetivo</b> = 26 °C</span><span class="chip"><b>h(T)</b> = grados restantes</span></div></article>
 <article class="formula-card"><div class="formula-name">Prioridad de A*</div><div class="equation">f(n) = <span class="var">g(n)</span> + <span class="var">h(n)</span></div><p>Combina lo que ya costó el camino y lo que falta, según la estimación.</p><div class="chips"><span class="chip"><b>f</b> = prioridad</span><span class="chip"><b>g</b> = costo real</span><span class="chip"><b>h</b> = costo estimado</span></div></article>
 </div>
-<div class="calc"><div class="calc-box"><h3>Ejemplo de la heurística</h3><div class="calc-eq" id="heuristic-calc">h(29) = max(24 − 29, 0, 29 − 26)<br>= max(−5, 0, 3) = <strong>3</strong></div><div class="calc-caption">Faltan 3 ajustes para alcanzar el rango.</div></div><div class="calc-box"><h3>Ejemplo de g y f en el primer paso</h3><div class="calc-eq" id="priority-calc">g(n) = 1 · h(28) = 2<br>f(n) = 1 + 2 = <strong>3</strong></div><div class="calc-caption">Tras bajar a 28 °C: 1 ajuste realizado y 2 estimados.</div></div></div>
+<div class="calc"><div class="calc-box"><h3>Ejemplo de la heurística</h3><div class="calc-eq" id="heuristic-calc">h(29) = max(24 − 29, 0, 29 − 26)<br>= max(−5, 0, 3) = <strong>3</strong></div><div class="calc-caption">Faltan 3 ajustes para llegar a 26 °C.</div></div><div class="calc-box"><h3>Evaluación inicial de A*</h3><div class="calc-eq" id="priority-calc">g(n) = 0 · h(29) = 3<br>f(n) = 0 + 3 = <strong>3</strong></div><div class="calc-caption">Al inicio, el costo recorrido es 0; la estimación hasta 26 °C es 3.</div></div></div>
 </section>
 <section id="demo">
-<div class="kicker">04 / Demostración interactiva</div><h2>Mueve la temperatura inicial</h2><p class="sub">La ruta se actualiza en tiempo real para mostrar una solución de costo mínimo dentro de este modelo.</p>
+<div class="kicker">04 / Demostración interactiva</div><h2>Mueve la temperatura inicial</h2><p class="sub">La ruta se actualiza en tiempo real para mostrar los ajustes hasta alcanzar 26 °C.</p>
 <div class="demo">
-<div class="control"><label for="temperature">Temperatura inicial</label><div class="temperature"><span id="tvalue">29</span><small> °C</small></div><input id="temperature" type="range" min="18" max="32" step="1" value="29" aria-label="Temperatura inicial de 18 a 32 grados"><div class="range-labels"><span>18 °C</span><span>32 °C</span></div><div class="goal"><span>Rango objetivo</span><strong>24–26 °C</strong></div><div class="goal"><span>Heurística inicial h(T)</span><strong id="hvalue">3</strong></div></div>
-<div class="visual-result"><div class="result-head"><div><div class="kicker">Ruta de costo mínimo</div><h3 id="route-title" style="margin:4px 0 0">29 °C → 26 °C</h3></div><span class="status" id="status">3 pasos</span></div><div class="path" id="path" aria-live="polite"></div><div class="metrics"><div class="metric"><span>BFS · costo</span><b id="bfs">3</b><small>Explora por niveles</small></div><div class="metric"><span>UCS · costo</span><b id="ucs">3</b><small>Prioriza g(n)</small></div><div class="metric"><span>A* · costo</span><b id="astar">3</b><small>Prioriza f(n)</small></div></div><div class="dynamic-formula" id="live-formula">h(29) = max(−5, 0, 3) = <b>3</b></div></div>
+<div class="control"><label for="temperature">Temperatura inicial</label><div class="temperature"><span id="tvalue">29</span><small> °C</small></div><input id="temperature" type="range" min="18" max="32" step="1" value="29" aria-label="Temperatura inicial de 18 a 32 grados"><div class="range-labels"><span>18 °C</span><span>32 °C</span></div><div class="goal"><span>Temperatura objetivo</span><strong>26 °C</strong></div><div class="goal"><span>Heurística inicial h(T)</span><strong id="hvalue">3</strong></div></div>
+<div class="visual-result"><div class="result-head"><div><div class="kicker">Ruta de costo mínimo</div><h3 id="route-title" style="margin:4px 0 0">29 °C → 26 °C</h3></div><span class="status" id="status">3 pasos</span></div><div class="path" id="path" aria-live="polite"></div><div class="metrics"><div class="metric"><span>BFS · costo</span><b id="bfs">3</b><small>Explora por niveles</small></div><div class="metric"><span>UCS · costo</span><b id="ucs">3</b><small>Prioriza g(n)</small></div><div class="metric"><span>A* · costo</span><b id="astar">3</b><small>Prioriza f(n)</small></div></div><div class="dynamic-formula" id="live-formula">h(29) = |29 − 26| = <b>3</b></div></div>
 </div>
 </section>
 <section>
-<div class="kicker">05 / Comparación</div><h2>Tres estrategias, una misma meta</h2><p class="sub">En este ejemplo cada acción cuesta lo mismo, por eso las tres encuentran una ruta óptima.</p>
+<div class="kicker">05 / Comparación</div><h2>Tres estrategias, una misma meta</h2><p class="sub">Cada ajuste cuesta 1 y cambia la temperatura 1 °C; por eso las tres encuentran una ruta de costo mínimo.</p>
 <div class="compare">
 <article class="algo"><div class="algo-top"><span class="algo-mark">BFS</span><span class="chip">Por niveles</span></div><div class="rule">Prioridad: profundidad</div><p>Explora primero los estados que requieren menos pasos desde el inicio.</p><div class="mini-track"><span></span><span></span><span></span><span></span><span></span></div></article>
 <article class="algo"><div class="algo-top"><span class="algo-mark">UCS</span><span class="chip">Costo uniforme</span></div><div class="rule">Prioridad: g(n)</div><p>Expande primero el camino con menor costo acumulado.</p><div class="mini-track"><span></span><span></span><span></span><span></span><span></span></div></article>
 <article class="algo"><div class="algo-top"><span class="algo-mark">A*</span><span class="chip">Heurística</span></div><div class="rule">Prioridad: g(n) + h(n)</div><p>Usa el costo recorrido y una estimación para orientar la exploración.</p><div class="mini-track"><span></span><span></span><span></span><span></span><span></span></div></article>
 </div>
-<div class="disclaimer"><strong>Nota del modelo</strong><span>Este rango y sus acciones son datos simulados para aprender algoritmos. No son una recomendación de temperatura para especies marinas ni un sistema de control real.</span></div>
+<div class="disclaimer"><strong>Nota del modelo</strong><span>La temperatura objetivo y las acciones son datos simulados para aprender algoritmos. No son una recomendación para especies marinas ni un sistema de control real.</span></div>
 </section>
 </main>
 <footer class="wrap footer"><span>ACUARIO-IA · Búsqueda de estados · Material académico</span><span><a href="https://github.com/Antoniii28/Acuario-IA/tree/fase8-busqueda-bfs-astar">Código del proyecto ↗</a> · <a href="https://colab.research.google.com/github/Antoniii28/Acuario-IA/blob/fase8-busqueda-bfs-astar/notebooks/Acuario_IA_Fase6_Flujo_Profesional.ipynb" target="_blank" rel="noreferrer">Abrir Colab ↗</a></span></footer>
 <script>
 const slider=document.getElementById('temperature');
 const $=id=>document.getElementById(id);
-function heuristic(t){return Math.max(24-t,0,t-26)}
+function heuristic(t){return Math.abs(t-26)}
 function update(){
  const start=Number(slider.value);
- const target=start<24?24:(start>26?26:start);
+ const target=26;
  const direction=target===start?0:(target>start?1:-1);
  const route=[start];
  while(route[route.length-1]!==target)route.push(route[route.length-1]+direction);
@@ -97,16 +97,9 @@ function update(){
   if(i<route.length-1){const arrow=document.createElement('span');arrow.className='arrow';arrow.textContent='→';path.appendChild(arrow)}
  });
  const hFirst=heuristic(start);
- $('heuristic-calc').innerHTML='h('+start+') = max(24 − '+start+', 0, '+start+' − 26)<br>= max('+(24-start)+', 0, '+(start-26)+') = <strong>'+h+'</strong>';
- if(cost===0){
-  $('priority-calc').innerHTML='g(n) = 0 · h('+start+') = 0<br>f(n) = 0 + 0 = <strong>0</strong>';
-  $('live-formula').innerHTML='h('+start+') = 0 · Ya estás en la meta.';
- }else{
-  const first=start+direction;
-  const hNext=heuristic(first);
-  $('priority-calc').innerHTML='g(n) = 1 · h('+first+') = '+hNext+'<br>f(n) = 1 + '+hNext+' = <strong>'+(1+hNext)+'</strong>';
-  $('live-formula').innerHTML='h('+start+') = max('+(24-start)+', 0, '+(start-26)+') = <b>'+h+'</b> · costo mínimo restante';
- }
+ $('heuristic-calc').innerHTML='h('+start+') = |'+start+' − 26|<br>= <strong>'+h+'</strong>';
+ $('priority-calc').innerHTML='g(n) = 0 · h('+start+') = '+h+'<br>f(n) = 0 + '+h+' = <strong>'+h+'</strong>';
+ $('live-formula').innerHTML='h('+start+') = |'+start+' − 26| = <b>'+h+'</b> · grados estimados restantes';
 }
 slider.addEventListener('input',update);update();
 </script>
