@@ -1,0 +1,73 @@
+name: Validar notebook ACUARIO-IA
+
+on:
+  push:
+    branches:
+      - fase8-busqueda-bfs-astar
+    paths:
+      - 'notebooks/Acuario_IA_Fase6_Flujo_Profesional.ipynb'
+      - '.github/workflows/validar-acuario-ia.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  ejecutar-notebook:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Descargar repositorio
+        uses: actions/checkout@v4
+        with:
+          ref: fase8-busqueda-bfs-astar
+
+      - name: Preparar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Instalar dependencias del bloque de búsqueda
+        run: python -m pip install --upgrade pip matplotlib ipywidgets nbformat
+
+      - name: Ejecutar el bloque BFS, UCS y A* del notebook
+        env:
+          MPLBACKEND: Agg
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          path = Path("notebooks/Acuario_IA_Fase6_Flujo_Profesional.ipynb")
+          notebook = json.loads(path.read_text(encoding="utf-8"))
+          code_cells = [c for c in notebook["cells"] if c.get("cell_type") == "code"]
+          if not code_cells:
+              raise SystemExit("ERROR: el notebook no contiene celdas de código.")
+
+          # La sección añadida de comparación está en la última celda de código.
+          source = "".join(code_cells[-1]["source"])
+          required = ("def buscar_bfs", "def buscar_ucs", "def buscar_astar", "def comparar_busquedas")
+          missing = [item for item in required if item not in source]
+          if missing:
+              raise SystemExit(f"ERROR: faltan funciones esperadas en la última celda: {missing}")
+
+          namespace = {"__name__": "__main__"}
+          exec(compile(source, str(path), "exec"), namespace)
+
+          expected = {18: 6, 22: 2, 25: 0, 29: 3, 32: 6}
+          for start, cost_expected in expected.items():
+              results = [
+                  namespace["buscar_bfs"](start),
+                  namespace["buscar_ucs"](start),
+                  namespace["buscar_astar"](start),
+              ]
+              costs = [result["costo"] for result in results]
+              assert costs == [cost_expected] * 3, (
+                  f"Inicio {start}: costos obtenidos {costs}; esperado {cost_expected}"
+              )
+              assert all(result["ruta"][0] == start for result in results)
+              assert all(namespace["es_meta"](result["ruta"][-1]) for result in results)
+              print(f"PASS inicio={start}°C costos BFS/UCS/A*={costs}")
+
+          print("PASS: bloque de comparación ejecutado y cinco casos verificados.")
+          PY
