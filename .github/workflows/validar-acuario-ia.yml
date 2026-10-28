@@ -46,7 +46,7 @@ jobs:
           path = Path("notebooks/Acuario_IA_Colab.ipynb")
           notebook = json.loads(path.read_text(encoding="utf-8"))
           cells = [c for c in notebook.get("cells", []) if c.get("cell_type") == "code"]
-          source = "\\n".join("".join(c.get("source", [])) for c in cells)
+          source = "\n".join("".join(c.get("source", [])) for c in cells)
           required = ("def buscar(algoritmo):", "def heuristica(e):", "def sucesores(e):")
           missing = [item for item in required if item not in source]
           if missing:
