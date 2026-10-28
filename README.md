@@ -5,10 +5,10 @@ Prototipo académico en Python para monitoreo simulado de calidad del agua marin
 ## Demo visual
 - Sitio web: https://antoniii28.github.io/Acuario-IA/
 - La web presenta un ejemplo didáctico de temperatura (estado inicial variable, meta 26 °C, costo unitario). Ejecuta BFS, UCS y A* sobre ese grafo sencillo.
-- Colab presenta el modelo ampliado de tres parámetros (temperatura, salinidad y pH), con costos no uniformes. Los resultados entre ambos modelos no se deben comparar como si fueran el mismo grafo.
+- El enlace de Colab para la exposición abre la versión visual con acuario animado y peces; solo simula la temperatura y la corrección dentro del rango ilustrativo de 24–26 °C. No incluye salinidad ni pH.
 
 ## Ejecutar
-- En Google Colab, abrir `notebooks/Acuario_IA_Colab.ipynb` y ejecutar la celda.
+- Para la exposición, abrir el [notebook visual de temperatura con acuario animado](https://colab.research.google.com/github/Antoniii28/Acuario-IA/blob/fase6-flujo-profesional/notebooks/Acuario_IA_Fase6_Flujo_Profesional.ipynb) y ejecutar las celdas desde el inicio. El notebook `notebooks/Acuario_IA_Colab.ipynb` es una versión ampliada diferente.
 - En terminal: `python src/acuario_ia.py`
 - Pruebas: `python -m unittest discover -s tests -v`.
 - No requiere dependencias externas.
