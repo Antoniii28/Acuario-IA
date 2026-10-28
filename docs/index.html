@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#071b2b">
+<title>ACUARIO-IA | Cómo funciona la búsqueda</title>
+<style>
+:root{--bg:#071b2b;--panel:#102b3d;--panel2:#16384a;--text:#eef8fc;--muted:#a8c1cf;--aqua:#5eead4;--blue:#7dd3fc;--gold:#fcd34d;--line:#285064}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(ellipse at 80% 0%,#12445a 0,transparent 36%),var(--bg);color:var(--text);font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+.wrap{width:min(1080px,92%);margin:auto}.nav{display:flex;justify-content:space-between;align-items:center;padding:20px 0;border-bottom:1px solid var(--line);gap:16px}.brand{font-weight:850;letter-spacing:.08em}.brand span{color:var(--aqua)}.nav a,.btn{color:var(--text);text-decoration:none;border:1px solid #3b6478;border-radius:999px;padding:9px 15px;font-weight:650}.hero{padding:64px 0 42px;display:grid;grid-template-columns:1.2fr .8fr;gap:30px;align-items:center}.eyebrow{color:var(--aqua);font-weight:750;text-transform:uppercase;letter-spacing:.14em;font-size:.8rem}.hero h1{font-size:clamp(2.5rem,6vw,4.7rem);line-height:1.04;letter-spacing:-.04em;margin:12px 0 18px}.hero p{color:var(--muted);font-size:1.12rem;max-width:660px}.hero-art{min-height:230px;border:1px solid var(--line);border-radius:24px;background:linear-gradient(160deg,#12465b,#0a2435);display:grid;place-items:center;position:relative;overflow:hidden}.tank{width:210px;height:145px;border:4px solid #9be7f3;border-top-width:7px;border-radius:12px 12px 28px 28px;position:relative;background:linear-gradient(#3c9fbd33 20%,#0c6b8c88);box-shadow:0 0 40px #5eead433}.tank:before{content:"";position:absolute;inset:40% 0 0;background:linear-gradient(transparent,#137b9c88);border-radius:0 0 22px 22px}.bubble{position:absolute;border:2px solid #9be7f3;border-radius:50%;width:10px;height:10px;left:32%;top:22%;box-shadow:26px 30px 0 -1px #0c3447,26px 30px 0 1px #9be7f3}.fish{position:absolute;top:52%;left:38%;font-size:40px;filter:drop-shadow(0 4px 5px #071b2b)}.weed{position:absolute;bottom:3px;left:20px;color:#5eead4;font-size:35px}.section{padding:38px 0}.section h2{font-size:clamp(1.7rem,3vw,2.4rem);line-height:1.15;margin:0 0 10px}.lead{color:var(--muted);max-width:760px;margin:0 0 22px}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}.card{background:linear-gradient(150deg,var(--panel),#0b2333);border:1px solid var(--line);border-radius:18px;padding:22px}.card h3{margin:0 0 8px}.card p{margin:0;color:var(--muted)}.tag{display:inline-block;color:var(--aqua);font-size:.78rem;font-weight:800;letter-spacing:.07em;text-transform:uppercase;margin-bottom:8px}.formula{font:600 clamp(1.1rem,2vw,1.55rem)/1.5 ui-monospace,SFMono-Regular,Consolas,monospace;background:#061722;border:1px solid var(--line);border-radius:12px;padding:14px;overflow-wrap:anywhere}.highlight{color:var(--gold)}.demo{display:grid;grid-template-columns:.8fr 1.2fr;gap:18px}.control label{display:block;font-weight:700;margin-bottom:10px}.control input{width:100%;accent-color:var(--aqua)}.temp{font-size:3.5rem;font-weight:850;line-height:1.2;color:var(--aqua)}.small{font-size:.9rem;color:var(--muted)}.result-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}.result{padding:15px;border-radius:12px;background:#071b2b;border:1px solid var(--line)}.result b{display:block;font-size:1.3rem}.result span{font-size:.82rem;color:var(--muted)}.path{display:flex;flex-wrap:wrap;gap:7px;align-items:center;margin-top:14px}.node{background:#1c5263;border:1px solid #3d7e8f;padding:7px 10px;border-radius:9px;font-weight:750}.arrow{color:var(--aqua)}.steps{counter-reset:step;display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.step{border-top:2px solid var(--aqua);padding:15px 4px}.step:before{counter-increment:step;content:"0" counter(step);color:var(--aqua);font-weight:850;font-size:1.2rem}.step h3{margin:7px 0}.step p{color:var(--muted);font-size:.94rem;margin:0}.note{border-left:3px solid var(--gold);padding:12px 16px;background:#3a321c55;border-radius:0 10px 10px 0;color:#f8e8b2}.footer{border-top:1px solid var(--line);padding:25px 0 40px;color:var(--muted);font-size:.9rem}.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}.btn.primary{background:var(--aqua);color:#06212c;border-color:var(--aqua)}a:focus-visible,input:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+@media(max-width:760px){.hero,.demo{grid-template-columns:1fr}.hero{padding-top:40px}.hero-art{min-height:190px}.grid{grid-template-columns:1fr}.steps{grid-template-columns:repeat(2,1fr)}.result-grid{grid-template-columns:1fr}.nav{align-items:flex-start;flex-direction:column}}
+</style>
+</head>
+<body>
+<header class="wrap nav"><div class="brand">🌊 ACUARIO<span>-IA</span></div><a href="#demo">Probar ejemplo ↓</a></header>
+<main class="wrap">
+<section class="hero">
+<div><div class="eyebrow">Guía visual · Algoritmos de búsqueda</div><h1>¿Cómo encuentra una ruta la IA?</h1><p>Usamos un acuario marino simulado para entender estados, acciones, costos y heurísticas. El objetivo del ejemplo es llevar la temperatura al rango ilustrativo de <strong>24 a 26 °C</strong> con la menor cantidad de ajustes.</p><div class="actions"><a class="btn primary" href="#demo">Explorar el ejemplo</a><a class="btn" href="https://colab.research.google.com/github/Antoniii28/Acuario-IA/blob/fase8-busqueda-bfs-astar/notebooks/Acuario_IA_Fase6_Flujo_Profesional.ipynb" target="_blank" rel="noreferrer">Abrir notebook en Colab ↗</a></div></div>
+<div class="hero-art" aria-label="Ilustración de un acuario"><div class="tank"><div class="bubble"></div><div class="fish">🐠</div><div class="weed">♨</div></div></div>
+</section>
+<section class="section" id="problema"><h2>1. Convertimos el problema en búsqueda</h2><p class="lead">Para que un algoritmo pueda resolverlo, definimos qué significa estar en una situación, qué movimientos se permiten y cuándo llegamos a la meta.</p>
+<div class="grid">
+<article class="card"><span class="tag">Estado</span><h3>Temperatura actual</h3><p>Un estado es un valor entero entre 18 y 32 °C. Por ejemplo, <b>29 °C</b>.</p></article>
+<article class="card"><span class="tag">Acciones</span><h3>Ajustar 1 grado</h3><p>En cada paso podemos subir o bajar 1 °C, sin salir de los límites del modelo.</p></article>
+<article class="card"><span class="tag">Meta</span><h3>Entre 24 y 26 °C</h3><p>La búsqueda termina cuando la temperatura está dentro del rango objetivo, inclusive.</p></article>
+</div></section>
+<section class="section"><h2>2. Las fórmulas, explicadas</h2><p class="lead">Cada algoritmo decide qué estado explorar a continuación de una forma distinta.</p>
+<div class="grid">
+<article class="card"><span class="tag">Costo acumulado</span><h3>g(n)</h3><div class="formula">g(n) = costo desde el inicio</div><p>En este ejemplo cada ajuste cuesta 1. Si hicimos tres ajustes, el costo acumulado es <b>g(n) = 3</b>.</p></article>
+<article class="card"><span class="tag">Heurística</span><h3>h(n)</h3><div class="formula">h(T) = max(24 − T, 0, T − 26)</div><p>Estima cuántos grados faltan para entrar al rango. Si T = 29, entonces h(29) = max(−5, 0, 3) = <b>3</b>.</p></article>
+<article class="card"><span class="tag">Prioridad A*</span><h3>f(n)</h3><div class="formula">f(n) = g(n) + h(n)</div><p>A* suma el costo ya recorrido y el costo estimado restante. Si g = 1 y h = 2, entonces f = <b>3</b>.</p></article>
+</div>
+<div class="card" style="margin-top:15px"><h3>¿Por qué esta heurística es válida?</h3><p>Cuenta la distancia mínima en grados hasta el intervalo objetivo. Como cada acción cambia la temperatura exactamente 1 °C y cuesta 1, nunca sobreestima el costo real: es una heurística admisible. Cuando T ya está entre 24 y 26, h(T) = 0.</p></div>
+</section>
+<section class="section"><h2>3. ¿Qué hace cada algoritmo?</h2><div class="grid">
+<article class="card"><span class="tag">BFS</span><h3>Búsqueda en anchura</h3><p>Explora primero los estados por niveles, según la cantidad de pasos. Encuentra una ruta con menos pasos cuando todas las acciones tienen el mismo costo.</p></article>
+<article class="card"><span class="tag">UCS</span><h3>Costo uniforme</h3><p>Expande primero el estado con menor costo acumulado <b>g(n)</b>. Es útil cuando las acciones pueden tener costos diferentes.</p></article>
+<article class="card"><span class="tag">A*</span><h3>Búsqueda informada</h3><p>Prioriza el menor <b>f(n) = g(n) + h(n)</b>. Usa la heurística para orientar la búsqueda hacia la meta sin sobreestimar.</p></article>
+</div></section>
+<section class="section" id="demo"><h2>4. Prueba el caso del acuario</h2><p class="lead">Cambia la temperatura inicial y observa la heurística, la ruta mínima y el costo esperado. Es una demostración educativa del modelo discreto, no un controlador de un acuario real.</p>
+<div class="demo">
+<div class="card control"><label for="temperature">Temperatura inicial</label><div class="temp"><span id="tvalue">29</span><span style="font-size:1.5rem"> °C</span></div><input id="temperature" type="range" min="18" max="32" step="1" value="29"><div style="display:flex;justify-content:space-between" class="small"><span>18 °C</span><span>32 °C</span></div><p class="small" style="margin-top:20px">Meta: 24–26 °C<br>Acciones: +1 °C o −1 °C<br>Costo por acción: 1</p><div class="formula" id="hformula">h(29) = max(24 − 29, 0, 29 − 26) = 3</div></div>
+<div class="card"><h3>Ruta más corta al rango</h3><p class="small" id="explain">Desde 29 °C hay que bajar 3 grados para llegar a 26 °C.</p><div class="path" id="path" aria-live="polite"></div><div class="result-grid"><div class="result"><span>BFS · costo</span><b id="bfs">3</b></div><div class="result"><span>UCS · costo</span><b id="ucs">3</b></div><div class="result"><span>A* · costo</span><b id="astar">3</b></div></div><p class="small" style="margin-top:14px">En este escenario los tres costos óptimos coinciden porque cada acción cuesta lo mismo y cada paso cambia 1 °C.</p></div>
+</div></section>
+<section class="section"><h2>5. Cómo explicarlo en la exposición</h2><div class="steps">
+<div class="step"><h3>Definir</h3><p>Partimos de 29 °C y fijamos la meta entre 24 y 26 °C.</p></div>
+<div class="step"><h3>Modelar</h3><p>Representamos temperaturas como estados y ajustes de ±1 °C como acciones.</p></div>
+<div class="step"><h3>Calcular</h3><p>Usamos g(n) para el costo acumulado, h(n) para la distancia restante y f(n) para A*.</p></div>
+<div class="step"><h3>Comparar</h3><p>BFS, UCS y A* encuentran costo 3 desde 29 °C; A* aprovecha la heurística para orientar la exploración.</p></div>
+</div><p class="note"><b>Importante:</b> los valores y rangos de esta página son ilustrativos para la actividad de algoritmos. No representan recomendaciones universales para especies marinas ni instrucciones para modificar un acuario real.</p></section>
+</main>
+<footer class="wrap footer">ACUARIO-IA · Material de apoyo académico · Modelo simulado de temperatura · <a style="color:var(--blue)" href="https://github.com/Antoniii28/Acuario-IA/tree/fase8-busqueda-bfs-astar">Ver código del proyecto</a></footer>
+<script>
+const slider=document.getElementById('temperature');
+const tvalue=document.getElementById('tvalue'), hf=document.getElementById('hformula'), path=document.getElementById('path'), explain=document.getElementById('explain');
+function heuristic(t){return Math.max(24-t,0,t-26)}
+function update(){const start=Number(slider.value);tvalue.textContent=start;const h=heuristic(start);hf.textContent='h('+start+') = max(24 − '+start+', 0, '+start+' − 26) = '+h;
+let target=start<24?24:(start>26?26:start);let route=[start];while(route[route.length-1]!==target){const last=route[route.length-1];route.push(last+(target>last?1:-1))}
+path.replaceChildren();route.forEach((n,i)=>{const el=document.createElement('span');el.className='node';el.textContent=n+' °C';if(i===route.length-1){el.style.background='#155e4d';el.style.borderColor='#5eead4';el.title='Meta alcanzada'}path.appendChild(el);if(i<route.length-1){const a=document.createElement('span');a.className='arrow';a.textContent='→';path.appendChild(a)}});
+const cost=route.length-1;document.getElementById('bfs').textContent=cost;document.getElementById('ucs').textContent=cost;document.getElementById('astar').textContent=cost;
+explain.textContent=cost===0?'La temperatura ya está dentro del rango objetivo; no hace falta ningún ajuste.':start>26?'Desde '+start+' °C hay que bajar '+cost+' grado(s) para llegar a 26 °C.':'Desde '+start+' °C hay que subir '+cost+' grado(s) para llegar a 24 °C.';
+}
+slider.addEventListener('input',update);update();
+</script>
+</body></html>
